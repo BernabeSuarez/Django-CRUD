@@ -4,4 +4,22 @@
 
 <h1>Tareas</h1>
 
+{% for task in tasks %}
+<li>
+    <a href="{% url 'task_detail' task.id %}">
+        <h2>
+            {{task.title}}
+        </h2>
+        <p>
+            {{task.description}}
+        </p>
+        <p>
+            {{task.user.username}}
+        </p>
+    </a>
+
+</li>
+
+{% endfor %}
+
 {% endblock %}
