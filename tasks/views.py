@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
+from .forms import TaskForm
 
 
 # Create your views here.
@@ -41,7 +42,7 @@ def signup(request):
     )
 
 
-def createtasks(request):
+def viewtasks(request):
     return render(request, "tasks.html")
 
 
@@ -72,3 +73,21 @@ def signin(request):
 def signout(request):
     logout(request)
     return redirect("/")
+
+
+def createtasks(request):
+    if request.method == "GET":
+        return render(request, "create_tasks.html", {"form": TaskForm})
+    else:
+        try:
+            form = TaskForm(request.POST)  # tomar los datos del formulario
+            new_task = form.save(commit=False)
+            new_task.user = request.user  # agregar el usuario activo a la tarea
+            new_task.save()  # guardar la tarea en la BD
+            return redirect("/tasks")
+        except ValueError:
+            return render(
+                request,
+                "create_tasks.html",
+                {"form": TaskForm, "error": "Los Datos ingresados no son correctos"},
+            )

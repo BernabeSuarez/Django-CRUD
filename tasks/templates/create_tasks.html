@@ -1,0 +1,13 @@
+{% extends 'layouts/layout.html' %}
+
+{% block content %}
+
+<h2>Crear Tareas</h2>
+{{error}}
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Crear Tarea</button>
+</form>
+
+{% endblock %}

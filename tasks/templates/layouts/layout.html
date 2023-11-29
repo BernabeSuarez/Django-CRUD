@@ -14,6 +14,7 @@
 
             <li><a href="/tasks">Tasks</a></li>
             {% if user.is_authenticated %}
+            <li><a href="/create">Crear Tareas</a></li>
             <li><a href="/logout">Logout</a></li>
             {% else %}
             <li><a href="/signup">Signup</a></li>
