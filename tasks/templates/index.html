@@ -5,19 +5,9 @@
     <section class="card card-body">
 
         <h2 class="display-1 text-center">Django App</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste placeat eligendi sit dolorum, accusamus facere
-            reprehenderit repellendus a. Numquam, deleniti rem at aspernatur sed tenetur, doloremque doloribus facilis
-            repellat
-            quod temporibus distinctio. Totam maxime architecto aliquam quae nihil quidem doloremque quia impedit illo
-            iure
-            similique voluptatibus numquam voluptas inventore officia pariatur neque placeat non, at quam porro
-            temporibus.
-            Quod
-            corporis quis amet provident sunt incidunt suscipit id accusantium, aperiam similique impedit dolorem error
-            neque
-            quasi doloremque quos velit quaerat libero saepe culpa molestiae, iure perspiciatis dicta nisi. Qui
-            quibusdam
-            sapiente, veniam suscipit quam quis, minima totam magni amet fugiat asperiores?</p>
+        <p>Pequeña aplicacion creada con Django en Python, de registro de notas-tareas, con autenticacion, rutas
+            protegidas, se pueden crear, editar, leer y borrar las tareas, las mismas solo pueden ser vistas y/o
+            editadas por el usuario que las creo.</p>
         <div class="text-center">
             {% if user.is_authenticated %}
             <a class="btn btn-primary mx-2" href="/create">Crear Tareas</a>
