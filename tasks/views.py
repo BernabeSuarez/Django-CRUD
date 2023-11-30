@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
+from django.utils import timezone
 from .forms import TaskForm
 from .models import Task
 
@@ -52,10 +53,57 @@ def viewtasks(request):
 
 
 def taskdetail(request, task_id):
+    if request.method == "GET":
+        task = get_object_or_404(
+            Task,
+            pk=task_id,
+            user=request.user,  # mostrar solo las tareas creadas por el usuario
+        )  # mostrar un 404 si no se encuentra la pagina asi no se cae el servidor
+        form = TaskForm(instance=task)
+        return render(request, "task_detail.html", {"task": task, "form": form})
+    else:
+        try:
+            task = get_object_or_404(
+                Task,
+                pk=task_id,
+                user=request.user,  # solamente poder actualizar las tareas creada por el usuario
+            )  # mostrar un 404 si no se encuentra la pagina asi no se cae el servidor
+            form = TaskForm(request.POST, instance=task)
+            form.save()
+            return redirect("/tasks/")
+        except ValueError:
+            return render(
+                request,
+                "task_detail.html",
+                {
+                    "task": task,
+                    "form": TaskForm,
+                    "error": "La tarea no pudo ser actualizada revise la informacion",
+                },
+            )
+
+
+def completedtask(request, task_id):
     task = get_object_or_404(
-        Task, pk=task_id
-    )  # mostrar un 404 si no se encuentra la pagina asi no se cae el servidor
-    return render(request, "task_detail.html", {"task": task})
+        Task,
+        pk=task_id,
+        user=request.user,
+    )
+    if request.method == "POST":
+        task.datecompleted = timezone.now()
+        task.save()
+        return redirect("/tasks")
+
+
+def deletedtask(request, task_id):
+    task = get_object_or_404(
+        Task,
+        pk=task_id,
+        user=request.user,
+    )
+    if request.method == "POST":
+        task.delete()
+        return redirect("/tasks")
 
 
 def signin(request):
