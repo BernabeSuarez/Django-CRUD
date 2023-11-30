@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.utils import timezone
 from .forms import TaskForm
@@ -44,6 +45,7 @@ def signup(request):
     )
 
 
+@login_required
 def viewtasks(request):
     tasks = Task.objects.filter(
         user=request.user, datecompleted__isnull=True
@@ -52,6 +54,7 @@ def viewtasks(request):
     return render(request, "tasks.html", {"tasks": tasks})
 
 
+@login_required
 def taskdetail(request, task_id):
     if request.method == "GET":
         task = get_object_or_404(
@@ -83,6 +86,7 @@ def taskdetail(request, task_id):
             )
 
 
+@login_required
 def completedtask(request, task_id):
     task = get_object_or_404(
         Task,
@@ -95,6 +99,18 @@ def completedtask(request, task_id):
         return redirect("/tasks")
 
 
+@login_required
+def completed_task(request):
+    tasks = Task.objects.filter(
+        user=request.user, datecompleted__isnull=False
+    ).order_by(
+        "-datecompleted"
+    )  # mostrar solo las tareas realizadas y ordenarlas de la ultima a la primera
+
+    return render(request, "task_completed.html", {"tasks": tasks})
+
+
+@login_required
 def deletedtask(request, task_id):
     task = get_object_or_404(
         Task,
@@ -135,6 +151,7 @@ def signout(request):
     return redirect("/")
 
 
+@login_required
 def createtasks(request):
     if request.method == "GET":
         return render(request, "create_tasks.html", {"form": TaskForm})

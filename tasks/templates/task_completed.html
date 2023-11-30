@@ -5,7 +5,7 @@
 <main class="container">
     <div class="row">
         <div class="col align-self-center">
-            <h1 class="text-center display-3 py-5">Tareas Pendientes</h1>
+            <h1 class="text-center display-3 py-5">Tareas Completas</h1>
             <ul class="list-group">
                 {% for task in tasks %}
                 <li class="list-group-item">
@@ -30,6 +30,10 @@
                         <p>
                             {{task.description}}
                         </p>
+                        <p>
+                            completada el:
+                            {{task.datecompleted|date:'j-M-Y'}}
+                        </p>
                     </a>
                 </li>
                 {% endfor %}
@@ -37,6 +41,7 @@
         </div>
     </div>
 </main>
+
 
 
 

@@ -1,13 +1,21 @@
 {% extends 'layouts/layout.html' %}
 
 {% block content %}
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
 
-<h2>Crear Tareas</h2>
-{{error}}
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Crear Tarea</button>
-</form>
+            <form method="post" class="card card-body mt-5">
+                <h2>Crear Tareas</h2>
+                {{error}}
+                {% csrf_token %}
+                {{form}}
+                <button type="submit" class="btn btn-primary mt-2">Crear Tarea</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+
 
 {% endblock %}

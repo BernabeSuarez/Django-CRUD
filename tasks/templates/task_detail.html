@@ -1,22 +1,30 @@
 {% extends 'layouts/layout.html' %}
 
 {% block content %}
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h3>Actualizar Tarea</h3>
+            <p class="font-weight-light">{{task.title}}</p>
+            {{error}}
+            <form method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </form>
+            <div class="mt-2 d-flex justify-content-between">
+                <form action="{% url 'task_completed' task.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Tarea Completa</button>
+                </form>
+                <form action="{% url 'task_deleted' task.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar Tarea</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
 
-{{task.title}}
-<h3>Actualizar Tarea</h3>
-{{error}}
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Actualizar</button>
-</form>
-<form action="{% url 'task_completed' task.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">Tarea Completa</button>
-</form>
-<form action="{% url 'task_deleted' task.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">Eliminar Tarea</button>
-</form>
 
 {% endblock %}
