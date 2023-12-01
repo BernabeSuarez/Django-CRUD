@@ -87,6 +87,7 @@ DATABASES = {
         # Feel free to alter this value to suit your needs.
         default="postgresql://postgres:postgres@localhost:5432/mysite",
         conn_max_age=600,
+        conn_health_checks=True,
     )
 }
 
